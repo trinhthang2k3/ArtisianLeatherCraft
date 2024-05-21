@@ -1,4 +1,5 @@
-<%- include ../partials/header %> <%- include ../partials/categories-navbar %>
+<%- include ../partials/header %>
+<%- include ../partials/categories-navbar %>
 
 <div class="container-fluid">
   <!-- Flash messages -->
@@ -67,43 +68,112 @@
 
   <hr class="gradient-style" />
   <!-- Contents -->
-  <div class="row pl-4 pr-4">
-    <% products.forEach((product) => { %>
-    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 product-index-box">
-      <div class="single-product d-flex flex-column h-100">
-        <a
-          class="title-link"
-          href="/products/<%=product.category.slug%>/<%=product._id%>"
-        >
-          <img src="<%= product.imagePath %>" alt="Bag" class="img-fluid"
-        /></a>
-        <div class="product-info">
-          <a
-            class="title-link"
-            href="/products/<%=product.category.slug%>/<%=product._id%>"
-          >
-            <h6 class="mt-2 mb-2"><%= product.title %></h6></a
-          >
-          <div class="price">$<%= product.price %></div>
+  <form id="filter-form">
+    <div class="row pl-4 pr-4">
+      <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 filter-area">
+        <h4>Filters</h4>
+        <div class="filter-section">
+          <h6>Categories</h6>
+          <ul>
+            <% categories.forEach(category => { %>
+            <li>
+              <label>  
+                <input
+                  type="checkbox"
+                  href="/products/<%= category.slug %>"
+                   
+                  name="category"
+                  value="<%= category.slug %>" 
+                   >
+                <%= category.title %>
+              </label>
+            </li>
+            <% }) %>
+          </ul>
+    </div>
+      <div class="filter-section">
+        <h6>Price Range</h6>
+        <ul>
+          <li>
+            <label>
+              <input type="checkbox" name="price" value="1" >
+              Less than 1 million Dong
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="price" value="2" >
+              1-2 million Dong
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="price" value="3" >
+              2-3 million Dong
+            </label>
+          </li>
+        </ul>
+      </div>
+      <div class="filter-section">
+        <h6>Sort By</h6>
+        <div>
+          <label for="sort-by-low-to-high">
+            <input type="checkbox" id="sort-by-low-to-high" name="sort" value="price-low-to-high" >
+            Price: Low to High
+          </label>
         </div>
-        <% if(product.available) {%>
-        <a
-          href="/add-to-cart/<%=product._id%>"
-          class="btn btn-block btn-secondary button-style mt-auto mb-2"
-        >
-          Add to Shopping Cart
-        </a>
-        <% } else { %>
-        <a
-          href="#"
-          class="btn btn-block btn-danger button-style-danger mt-2 mb-2"
-        >
-          Sold out
-        </a>
-        <%} %>
+        <div>
+          <label for="sort-by-high-to-low">
+            <input type="checkbox" id="sort-by-high-to-low" name="sort" value="price-high-to-low" >
+            Price: High to Low
+          </label>
+        </div>
+      </div>
+      <button class="btn btn-primary apply-filters">Apply Filters</button>
+      </div>
+  </form>
+
+    <!-- Product List -->
+    <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+      <div class="row">
+        <% products.forEach((product) => { %>
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12 product-index-box">
+          <div class="single-product d-flex flex-column h-100">
+            <a
+              class="title-link"
+              href="/products/<%=product.category.slug%>/<%=product._id%>"
+            >
+              <img src="<%= product.imagePath %>" alt="Bag" class="img-fluid" />
+            </a>
+            <div class="product-info">
+              <a
+                class="title-link"
+                href="/products/<%=product.category.slug%>/<%=product._id%>"
+              >
+                <h6 class="mt-2 mb-2"><%= product.title %></h6>
+              </a>
+              <div class="price"><%= product.price.toLocaleString() %> Đồng</div>
+            </div>
+            <% if(product.available) { %>
+            <a
+              href="/add-to-cart/<%=product._id%>"
+              class="btn btn-block btn-secondary button-style mt-auto mb-2"
+            >
+              Add to Shopping Cart
+            </a>
+            <% } else { %>
+            <a
+              href="#"
+              class="btn btn-block btn-danger button-style-danger mt-2 mb-2"
+            >
+              Sold out
+            </a>
+            <% } %>
+          </div>
+        </div>
+        <% }) %>
       </div>
     </div>
-    <% }) %>
   </div>
 
   <%- include ../partials/pagination %>
