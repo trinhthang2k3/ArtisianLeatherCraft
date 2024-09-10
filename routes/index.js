@@ -73,7 +73,7 @@ router.get("/add-to-cart/:id", async (req, res) => {
       await cart.save();
     }
     req.session.cart = cart;
-    req.flash("success", "Item added to the shopping cart");
+    req.flash("success", "Thêm vào giỏ hàng thành công!");
     res.redirect(req.headers.referer);
   } catch (err) {
     console.log(err.message);
@@ -217,15 +217,72 @@ router.get("/checkout", middleware.isLoggedIn, async (req, res) => {
   });
 });
 
-// POST: handle checkout logic and payment using Stripe
+// // POST: handle checkout logic and payment using Stripe
+// router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
+//   if (!req.session.cart) {
+//     return res.redirect("/shopping-cart");
+//   }
+//   const cart = await Cart.findById(req.session.cart._id);
+//   stripe.charges.create(
+//     {
+//       amount: cart.totalCost * 100,
+//       currency: "usd",
+//       source: req.body.stripeToken,
+//       description: "Test charge",
+//     },
+//     function (err, charge) {
+//       if (err) {
+//         req.flash("error", err.message);
+//         console.log(err);
+//         return res.redirect("/checkout");
+//       }
+//       const order = new Order({
+//         user: req.user,
+//         cart: {
+//           totalQty: cart.totalQty,
+//           totalCost: cart.totalCost,
+//           items: cart.items,
+//         },
+//         address: req.body.address,
+//         paymentId: charge.id,
+//       });
+//       order.save(async (err, newOrder) => {
+//         if (err) {
+//           console.log(err);
+//           return res.redirect("/checkout");
+//         }
+//         await cart.save();
+//         await Cart.findByIdAndDelete(cart._id);
+//         req.flash("success", "Successfully purchased");
+//         req.session.cart = null;
+//         res.redirect("/user/profile");
+//       });
+//     }
+//   );
+// });
 router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
   if (!req.session.cart) {
     return res.redirect("/shopping-cart");
   }
+
   const cart = await Cart.findById(req.session.cart._id);
+
+  // Convert total cost to VND (assuming prices are stored in USD)
+   // Conversion rate (replace with a mechanism to fetch live rates if needed)
+   const conversionRateToUSD = 0.000039;
+
+   // Convert total cost to VND
+   const totalCostInUSD = cart.totalCost * conversionRateToUSD;
+// Enforce maximum Stripe charge amount
+const maxChargeAmount = 99999.99;
+if (totalCostInUSD > maxChargeAmount) {
+  req.flash("error", "Total cart cost exceeds the maximum allowed charge amount.");
+  console.log("Error: Cart total exceeds Stripe charge limit.");
+  return res.redirect("/checkout");
+}
   stripe.charges.create(
     {
-      amount: cart.totalCost * 100,
+      amount: Math.round(totalCostInUSD*100), // Round to nearest integer for VND (no decimals)
       currency: "usd",
       source: req.body.stripeToken,
       description: "Test charge",
@@ -236,16 +293,18 @@ router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
         console.log(err);
         return res.redirect("/checkout");
       }
+
       const order = new Order({
         user: req.user,
         cart: {
           totalQty: cart.totalQty,
-          totalCost: cart.totalCost,
+          totalCost: cart.totalCost, // Keep original USD cost for reference
           items: cart.items,
         },
         address: req.body.address,
         paymentId: charge.id,
       });
+
       order.save(async (err, newOrder) => {
         if (err) {
           console.log(err);
@@ -253,13 +312,14 @@ router.post("/checkout", middleware.isLoggedIn, async (req, res) => {
         }
         await cart.save();
         await Cart.findByIdAndDelete(cart._id);
-        req.flash("success", "Successfully purchased");
+        req.flash("success", "Đặt hàng thành công! Cảm ơn bạn đã mua hàng tại Artisian Leather Craft, sản phẩm sẽ được giao tới bạn trong thời gian sớm nhất.");
         req.session.cart = null;
         res.redirect("/user/profile");
       });
     }
   );
 });
+
 
 // create products array to store the info of each product in the cart
 async function productsFromCart(cart) {
@@ -274,5 +334,40 @@ async function productsFromCart(cart) {
   }
   return products;
 }
+
+router.get("/products", async (req, res) => {
+  console.log("all page")
+  try {
+    // Construct the query object
+    const query = {};
+    if (req.query.category) {
+      query.category = req.query.category;
+    }
+    if (req.query.price) {
+      // Implement price filtering logic if needed
+    }
+
+    let products;
+    // Check if sorting parameter exists
+    if (req.query.sort === 'price-low-to-high') {
+      products = await Product.find(query)
+        .sort({ price: 1 })
+        .populate("category");
+    } else if (req.query.sort === 'price-high-to-low') {
+      products = await Product.find(query)
+        .sort({ price: -1 })
+        .populate("category");
+    } else {
+      // If no sorting parameter provided, return unsorted products
+      products = await Product.find(query).populate("category");
+    }
+
+    res.render("shop/home", { pageName: "All Products", products });
+  } catch (error) {
+    console.log(error);
+    res.redirect("/");
+  }
+});
+
 
 module.exports = router;
