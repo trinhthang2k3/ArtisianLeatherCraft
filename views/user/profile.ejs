@@ -27,31 +27,52 @@
   <div class="row mt-4">
     <div class="col-md-8 m-auto">
       <% if (orders != null && orders.length > 0) { %>
-      <h3>My orders</h3>
+      <h3>Đơn đặt hàng</h3>
       <% orders.forEach( order => { %>
       <div class="card m-3">
         <div class="card-body">
-          <p class="card-text ">
+          <p class="card-text">
             <ul class="list-group">
               <% order.cart.items.forEach( item => { %>
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                <%= item.title %> | <%= item.qty %> Units
-                <span class="badge badge-info badge-pill"><%= item.price %></span>
+                <%= item.title %> | <%= item.qty %> Sản phẩm
+                <span class="badge badge-info badge-pill"><%= item.price.toLocaleString() %></span>
               </li>
-              <%}) %>
+              <% }) %>
             </ul>
           </p>
+          <button class="btn btn-danger" data-toggle="modal" data-target="#cancelModal">Hủy đơn đặt hàng</button>
         </div>
         <div class="card-footer">
-          <strong>Total Price: $<%= order.cart.totalCost %></strong>
+          <strong>Tổng giá tiền: <%= order.cart.totalCost.toLocaleString() %> Đồng</strong>
         </div>
       </div>
-      <%}) %>
-      <%} else { %>
-        <h3 class="text-center" >You have not made any orders yet</h3>
-      <%} %>
+      <% }) %>
+      <% } else { %>
+      <h3 class="text-center">Bạn chưa có đơn đặt hàng nào hết</h3>
+      <% } %>
     </div>
   </div>
-</div>
+  
+  <!-- Cancel Order Modal -->
+  <div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cancelModalLabel">Hủy đơn đặt hàng</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Bạn phải liên hệ với chúng tôi qua email hoặc số điện thoại hoặc đến trực tiếp cửa hàng chúng tôi để xác nhận hủy đơn hàng</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <%- include ../partials/footer %>
+
