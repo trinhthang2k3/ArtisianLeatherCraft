@@ -58,7 +58,6 @@
   <div class="text-center hero-container">
     <img
       class="d-block w-100 hero-image"
-      src="/images/banner-<%=category.slug%>.jpg"
     />
     <div class="hero-text">
       <h1><%=pageName%></h1>
@@ -68,68 +67,103 @@
 
   <hr class="gradient-style" />
   <!-- Contents -->
-  <form id="filter-form">
+  <form id="filter-form" action="/products" method="GET">
     <div class="row pl-4 pr-4">
       <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 filter-area">
-        <h4>Filters</h4>
+        <div class="bolocsanpham">
+          <h3>Bộ lọc sản phẩm
+             <button type="submit" name="sort" value="newest">
+            <span class="icon">&#x2193;</span>
+             Mới nhất
+          </button>
+        </h3>  
+        </div>
+        <hr>
         <div class="filter-section">
-          <h6>Categories</h6>
+          <h5>Danh mục sản phẩm</h5>
           <ul>
             <% categories.forEach(category => { %>
-            <li>
-              <label>  
-                <input
-                  type="checkbox"
-                  href="/products/<%= category.slug %>"
-                   
-                  name="category"
-                  value="<%= category.slug %>" 
-                   >
-                <%= category.title %>
-              </label>
-            </li>
+              <li <% if (pageName === category.title) { %>
+                class="active"
+              <% } %>>
+                <label>
+                  <input
+                    type="checkbox" hidden
+                    name="category"
+                    <% if (pageName === category.title) { %>
+                      checked
+                    <% } %> 
+                    >
+                   <a href="/products/<%= category.slug %>"><%= category.title %></a>
+                  
+                </label>
+              </li>
             <% }) %>
           </ul>
-    </div>
+        </div>  
       <div class="filter-section">
-        <h6>Price Range</h6>
+        <h5>Mức giá</h5>
         <ul>
           <li>
             <label>
               <input type="checkbox" name="price" value="1" >
-              Less than 1 million Dong
+              Dưới 1 triệu đồng
             </label>
           </li>
           <li>
             <label>
               <input type="checkbox" name="price" value="2" >
-              1-2 million Dong
+              1 đến 2 triệu đồng
             </label>
           </li>
           <li>
             <label>
               <input type="checkbox" name="price" value="3" >
-              2-3 million Dong
+              2 đến 3 triệu đồng
             </label>
           </li>
         </ul>
       </div>
       <div class="filter-section">
-        <h6>Sort By</h6>
+        <h5>Mức đánh giá</h5>
+        <ul>
+          <li>
+            <label>
+              <input type="checkbox" name="rating" value="3" >
+              <span class="star">&#9733;&#9733;&#9733;</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="rating" value="4" >
+              <span class="star">&#9733;&#9733;&#9733;&#9733;</span>
+            </label>
+          </li>
+          <li>
+            <label>
+              <input type="checkbox" name="rating" value="5" >
+              <span class="star">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            </label>
+          </li>
+        </ul>
+      </div>
+      <div class="filter-section">
+        <h5>Sắp xếp sản phẩm</h5>
         <div>
           <label for="sort-by-low-to-high">
             <input type="checkbox" id="sort-by-low-to-high" name="sort" value="price-low-to-high" >
-            Price: Low to High
+            Giá từ thấp đến cao
           </label>
         </div>
         <div>
           <label for="sort-by-high-to-low">
             <input type="checkbox" id="sort-by-high-to-low" name="sort" value="price-high-to-low" >
-            Price: High to Low
+            Giá từ cao đến thấp
           </label>
         </div>
       </div>
-      <button class="btn btn-primary apply-filters">Apply Filters</button>
+      <button class="btn btn-primary apply-filters" type="button" onclick="clearAllChoices()">Xóa tất cả</button>
+      <button class="btn btn-primary apply-filters" type="submit">Tìm theo bộ lọc</button>
       </div>
   </form>
 
@@ -159,14 +193,14 @@
               href="/add-to-cart/<%=product._id%>"
               class="btn btn-block btn-secondary button-style mt-auto mb-2"
             >
-              Add to Shopping Cart
+              Thêm vào giỏ hàng
             </a>
             <% } else { %>
             <a
               href="#"
               class="btn btn-block btn-danger button-style-danger mt-2 mb-2"
             >
-              Sold out
+              Đã hết
             </a>
             <% } %>
           </div>
@@ -179,3 +213,12 @@
   <%- include ../partials/pagination %>
 </div>
 <%- include ../partials/footer %>
+<script>
+  function clearAllChoices() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  }
+</script>
