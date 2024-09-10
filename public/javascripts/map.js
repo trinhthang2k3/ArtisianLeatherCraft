@@ -1,7 +1,6 @@
-mapboxgl.accessToken =
-  "pk.eyJ1IjoibS0xMzVhIiwiYSI6ImNrOGsyb3ZqaDBkemkzcW10emc1eXoyNngifQ.NuSNrMKqrpdm-jxvPpx0_Q";
-const lat = 48.8606;
-const lng = 2.3376;
+mapboxgl.accessToken = "pk.eyJ1IjoibS0xMzVhIiwiYSI6ImNrOGsyb3ZqaDBkemkzcW10emc1eXoyNngifQ.NuSNrMKqrpdm-jxvPpx0_Q";
+const lat = 20.9994;
+const lng = 105.8042;
 
 const map = new mapboxgl.Map({
   container: "map",
