@@ -2,112 +2,36 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-8 col-md-12 m-auto">
-      <h1 class="mt-4 mb-4 text-center">Contact Us</h1>
-      <!-- Flash message -->
-      <% if (successMsg != null && successMsg) { %>
-        <div id="success" class="alert alert-success">
-          <%= successMsg %>
-        </div>
-        <% } %>
-    </div>
-    <div class="col-lg-8 col-md-12 text-justify m-auto">
-      <!-- Introduction -->
-    <div class="mt-4 mb-4">
-      <p>Chúng tôi luôn sẵn sàng nhận được sự liên hệ của bạn mọi lúc! Đừng ngần ngại kết nối với chúng tôi qua thông tin ở dưới<br />
-        Bạn cũng có thể gặp chúng tôi ở cửa hàng bất cứ lúc nào trong giờ làm việc <i>Thứ 2 - Chủ nhật: 9 giờ đến 11 giờ</i> <br />
-        Chúng tôi sẽ luôn trả lời thông tin của bạn kể cả cuối tuần nên đừng ngần ngại liên hệ với chúng tôi
+    <div class="col-lg-8 col-md-12 m-auto text-justify">
+      <h1 class="mt-4 mb-5 text-center">Shipping Policy</h1>
+      <p>
+        Chúng tôi sẽ cung cấp các chính sách giao hàng và điều kiện giao hàng cho bạn ở đây!
       </p>
-    </div>
-      <!-- Email contacts -->
-      <div class="mt-4 mb-4">
-        <p>
-          <h6><i>Liên lạc với chúng tôi qua email</i></h6>
-        </p>
-        <p>
-          Email cho mục đích chung:
-          <a href="mailto:artisianleathercraft@email.com">
-            <i class="fa fa-envelope" aria-hidden="true"></i>
-            <u>artisianleathercraft@email.com</u>
-          </a>
-        </p>
-        <p>
-          Email cho vấn đề về các đơn đặt hàng:
-          <a href="mailto:ALCorders@email.com">
-            <i class="fa fa-envelope" aria-hidden="true"></i>
-            <u>ALCorders@email.com</u>
-          </a>
-        </p>
-        <p>
-          Email cho các vấn đề kỹ thuật hỗ trợ:
-          <a href="mailto:ALCsupport@email.com">
-            <i class="fa fa-envelope" aria-hidden="true"></i>
-            <u>ALCsupport@email.com</u>
-          </a>
-        </p>
-      </div>
-      <!-- Phone contacts -->
-      <div class="mt-4 mb-4">
-        <p>
-          <h6><i>Số điện thoại liên lạc của chúng tôi</i></h6>
-        </p>
-        <p>
-          Gọi cho số điện thoại chính:
-          <a href="tel:555-555-5555">
-            <i class="fa fa-phone" aria-hidden="true"></i>
-            555-555-5555
-           </a>
-        </p>
-        <p>
-          Gọi cho số điện thoại dự phòng:
-          <a href="tel:555-555-6666">
-            <i class="fa fa-phone" aria-hidden="true"></i>
-            555-555-6666
-           </a>
-        </p>
-        <p>
-          Liên lạc với chúng tôi qua Whatsapp
-          <a href="tel:123-456-7890">
-            <i class="fa fa-phone" aria-hidden="true"></i>
-            123-456-7890
-           </a>
-        </p>
-      </div>
-    </div>
 
-    <!-- Contact us form -->
-    <div class="col-lg-8 col-md-12 m-auto">
-      <div class="mt-5 mb-4">
-        <h2>Bảng thông tin liên hệ</h2>
-        <!-- Error flash message -->
-        <% if(errorMsg!=null && errorMsg.length>0) {%>
-          <div id="flash-msg" class="alert alert-danger">
-            <% errorMsg.forEach((message) => { %>
-            <p>
-              <%=message %>
-            </p>
-            <%}) %>
-          </div>
-          <%}%>
-        <form action="/pages/contact-us" method="POST">
-          <div class="form-group">
-            <label for="name">Tên</label>
-            <input type="name" class="form-control" name="name" id="name" required />
-          </div>
-          <div class="form-group">
-            <label for="email">Địa chỉ mail của bạn</label>
-            <input type="email" class="form-control" name="email" id="email" required />
-          </div>
-          <div class="form-group">
-            <label for="message">Thông tin liên hệ</label>
-            <textarea class="form-control" name="message" id="message" rows="5" placeholder="Hãy viết suy nghĩ của bạn.." required></textarea>
-          </div>
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-          <button type="submit" class="btn btn-primary button-style">
-            Xác nhận
-          </button>
-        </form>
-      </div>
+      <h4>Quá trình đơn đặt hàng của bạn</h4> 
+      <p> Để đặt hàng tại cửa hàng của chúng tôi, quá trình rất đơn giản và thuận tiện.
+         Bạn chỉ cần làm theo các bước sau: </p> <ol> 
+          <li>Chọn sản phẩm: Duyệt qua bộ sưu tập đồ da cao cấp của chúng tôi và chọn sản phẩm mà bạn muốn mua.</li>
+           <li>Thêm vào giỏ hàng: Nhấp vào nút "Thêm vào giỏ hàng" để đưa sản phẩm vào giỏ hàng của bạn.</li>
+            <li>Kiểm tra giỏ hàng: Kiểm tra lại các sản phẩm trong giỏ hàng của bạn, đảm bảo chúng đúng và đủ số lượng.</li> 
+            <li>Thanh toán: Tiến hành thanh toán bằng phương thức thanh toán phù hợp với bạn. Chúng tôi chấp nhận nhiều phương thức
+               thanh toán an toàn và tiện lợi.</li> <li>Xác nhận đơn hàng: Sau khi hoàn tất thanh toán, bạn sẽ nhận được xác nhận đơn hàng
+                 với thông tin chi tiết về đơn hàng của bạn.</li> </ol> <h4>Vận chuyển đơn đặt hàng</h4> <p> Chúng tôi cam kết cung cấp dịch vụ
+                   vận chuyển đáng tin cậy để đảm bảo đơn hàng của bạn được giao đến đúng và an toàn. Chúng tôi sử dụng các đối tác vận chuyển uy tín 
+                   để đảm bảo quá trình vận chuyển diễn ra một cách suôn sẻ và nhanh chóng. </p> <h4>Tốc độ giao hàng</h4> <p> Chúng tôi hiểu rằng thời gian
+                     giao hàng là rất quan trọng đối với khách hàng. Chúng tôi cam kết cung cấp tốc độ giao hàng nhanh chóng và đáng tin cậy. Thời gian giao
+                      hàng cụ thể sẽ phụ thuộc vào địa điểm của bạn và phương thức vận chuyển bạn chọn. Chúng tôi sẽ cung cấp thông tin chi tiết về thời gian
+                       giao hàng trong quá trình đặt hàng. </p> <h4>Chính sách đổi trả</h4> <p> Chúng tôi cam kết đảm bảo sự hài lòng của khách hàng với sản
+                         phẩm mua từ cửa hàng của chúng tôi. Nếu bạn không hài lòng với sản phẩm đã mua, chúng tôi sẽ xem xét chính sách đổi trả. Vui lòng liên
+                          hệ với chúng tôi trong vòng thời gian quy định để biết thêm thông tin về quy trình và điều kiện đổi trả. </p> <p> Cảm ơn bạn đã tin
+                             tưởng và lựa chọn cửa hàng đồ da cao cấp của chúng tôi. Chúng tôi cam kết mang đến cho bạn trải nghiệm mua sắm tốt nhất và dịch
+                              vụ chất lượng hàng đầu.
+
+      <h4>Bạn có câu hỏi gì không?</h4>
+      <p>
+        Hãy liên hệ với chúng tôi qua
+        <a href="/pages/contact-us"><u>contact us</u></a> email và số điện thoại này!
+      </p>
     </div>
   </div>
 </div>
