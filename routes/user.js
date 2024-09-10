@@ -7,16 +7,22 @@ const Product = require("../models/product");
 const Order = require("../models/order");
 const Cart = require("../models/cart");
 const middleware = require("../middleware");
+const {sendVerificationEmail}  = require("../service/email");
 const {
   userSignUpValidationRules,
   userSignInValidationRules,
   validateSignup,
   validateSignin,
+  validateVerificationCode
 } = require("../config/validator");
+const { fa } = require("faker/lib/locales");
 const csrfProtection = csrf();
 router.use(csrfProtection);
 
+
 // GET: display the signup form with csrf token
+
+
 router.get("/signup", middleware.isNotLoggedIn, (req, res) => {
   var errorMsg = req.flash("error")[0];
   res.render("user/signup", {
@@ -31,7 +37,8 @@ router.post(
   [
     middleware.isNotLoggedIn,
     userSignUpValidationRules(),
-    validateSignup,
+    validateSignup, 
+    validateVerificationCode,
     passport.authenticate("local.signup", {
       successRedirect: "/user/profile",
       failureRedirect: "/user/signup",
@@ -46,12 +53,14 @@ router.post(
         cart.user = req.user._id;
         await cart.save();
       }
+
       // redirect to the previous URL
       if (req.session.oldUrl) {
         var oldUrl = req.session.oldUrl;
         req.session.oldUrl = null;
         res.redirect(oldUrl);
-      } else {
+      }  
+      else {
         res.redirect("/user/profile");
       }
     } catch (err) {
@@ -61,7 +70,29 @@ router.post(
     }
   }
 );
-
+router.get("/signupmail", (req, res) => 
+{
+  var errorMsg = req.flash("error")[0];
+  res.render("user/signupmail", {
+    csrfToken: req.csrfToken(),
+    errorMsg,
+    pageName: "Sign Up",
+  });
+});
+router.post("/signupmail",
+ async (req, res) => {
+ try {
+  const { email } = req.body;
+  console.log(email);
+  sendVerificationEmail(email);
+  res.redirect("/user/signup"); // Redirect to success page
+} catch (err) {
+  console.error("Error sending verification email:", err);
+  req.flash("error", "There was a problem sending the verification email. Please try again.");
+  res.redirect("/user/signupmail"); // Redirect back to signup form
+}
+}
+);
 // GET: display the signin form with csrf token
 router.get("/signin", middleware.isNotLoggedIn, async (req, res) => {
   var errorMsg = req.flash("error")[0];
@@ -140,3 +171,4 @@ router.get("/logout", middleware.isLoggedIn, (req, res) => {
   res.redirect("/");
 });
 module.exports = router;
+
