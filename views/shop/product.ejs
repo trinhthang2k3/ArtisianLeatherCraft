@@ -26,29 +26,28 @@
     <div class="col-md-5 mt-2 mr-2 ml-auto">
       <img
         src="<%=product.imagePath%>"
-        class="img-fluid product-img"
+        class="img-fluid img-aspectRatio"
         alt="product image"
       />
     </div>
     <div class="col-md-5 mt-2 mb-2 ml-2 mr-auto text-dark">
       <h2><%=product.title%></h2>
       <hr />
-      <p class="price">USD $<%=product.price%></p>
-      <p class="lead"> Description: 
+      <p class="price"><%=product.price.toLocaleString() %> Đồng</p>
+      <p class="lead"> Miêu tả sản phẩm: 
         <p><%=product.description%></p>
       </p>
-      
-      <p><strong>Category:</strong> <%=product.category.title%></p>
-      <p><strong>Brand: </strong><%=product.manufacturer%></p>
-      <p><strong>Product code:</strong> <%=product.productCode%></p>
-      <p><strong>Date added to the store:</strong> <%= moment(product.createdAt).format( 'MMMM Do YYYY')%></p>
+      <p><strong>Danh mục:</strong> <%=product.category.title%></p>
+      <p><strong>Mã sản phẩm:</strong> <%=product.productCode%></p>
+      <p><strong>Số sao đánh giá:</strong> <%=product.rating%> </p>
+      <p><strong>Ngày sản xuất:</strong> <%= moment(product.createdAt).format( 'MMMM Do YYYY')%></p>
       <% if(product.available) {%>
-      <p class="is-available text-center">In stock</p>
+      <p class="is-available text-center">Còn hàng</p>
       <a href="/add-to-cart/<%=product._id%>" class="btn btn-block btn-secondary mt-3 mb-3 button-style">
-        Add to Shopping Cart
+        Thêm vào giỏ hàng
       </a>
       <% } else { %>
-      <p class="is-not-available text-center">Sold out</p>
+      <p class="is-not-available text-center">Đã hết</p>
       <%} %>
     </div>
   </div>
