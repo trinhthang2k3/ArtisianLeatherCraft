@@ -1,54 +1,116 @@
-<%- include ../partials/header %> <%- include ../partials/categories-navbar %>
 
-<div class="container">
-  <div class="row">
-    <div class="col-md-8 m-auto">
-      <h1 class="mt-4 mb-4">Sign Up Page</h1>
-      <% if(errorMsg != null && errorMsg.length>0) {%>
-      <div id="flash-msg" class="alert alert-danger">
-        <%=errorMsg %>
+  <%- include ../partials/header %> <%- include ../partials/categories-navbar %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 m-auto">
+        <h1 class="mt-4 mb-4">Trang đăng kí</h1>
+        <% if(errorMsg != null && errorMsg.length>0) {%>
+        <div id="flash-msg" class="alert alert-danger">
+          <%=errorMsg %>
+        </div>
+        <%}%>
+        <form action="/user/signup" method="POST">
+          <div class="form-group">
+            <label for="name">Tên tài khoản</label>
+            <input
+              type="name"
+              class="form-control"
+              name="name"
+              id="name"
+              required
+            />
+          </div>
+          <div class="form-group" >
+            <label for="email">Địa chỉ mail của bạn</label>
+            <div class="input-group">
+              <input type="email" class="form-control" name="email" id="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <div class="input-group">
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                id="password"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <i class="fas fa-eye" id="show-pass"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password2">Xác nhận mật khẩu</label>
+            <div class="input-group">
+              <input
+                type="password"
+                class="form-control"
+                name="password2"
+                id="password2"
+              />
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <i class="fas fa-eye" id="show-pass2"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="verificationCode"> Dãy số xác minh
+            </label>
+            <input type="text"
+            class="form-control"
+              name="verificationCode"
+              id="verificationCode"
+              maxlength="6" required />
+          </div>
+
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <button type="submit" class="btn btn-primary button-style">
+            Đăng kí
+          </button>
+        </form>
       </div>
-      <%}%>
-      <form action="/user/signup" method="POST">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input
-            type="name"
-            class="form-control"
-            name="name"
-            id="name"
-            required
-          />
-        </div>
-        <div class="form-group">
-          <label for="email">Email address</label>
-          <input type="email" class="form-control" name="email" id="email" />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            name="password"
-            id="password"
-          />
-        </div>
-        <div class="form-group">
-          <label for="password2">Verify Password</label>
-          <input
-            type="password"
-            class="form-control"
-            name="password2"
-            id="password2"
-          />
-        </div>
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-        <button type="submit" class="btn btn-primary button-style">
-          Sign Up
-        </button>
-      </form>
     </div>
   </div>
-</div>
-
-<%- include ../partials/footer %>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Get references to the password input fields and eye icons
+      var passwordInput = document.getElementById("password");
+      var togglePasswordButton = document.getElementById("show-pass");
+      var password2Input = document.getElementById("password2");
+      var togglePassword2Button = document.getElementById("show-pass2");
+  
+      // Attach click event listener to the toggle password button for the first password field
+      togglePasswordButton.addEventListener("click", function () {
+        // Toggle the type attribute of the password input field
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          togglePasswordButton.classList.remove("fa-eye");
+          togglePasswordButton.classList.add("fa-eye-slash");
+        } else {
+          passwordInput.type = "password";
+          togglePasswordButton.classList.remove("fa-eye-slash");
+          togglePasswordButton.classList.add("fa-eye");
+        }
+      });
+  
+      // Attach click event listener to the toggle password button for the second password field
+      togglePassword2Button.addEventListener("click", function () {
+        // Toggle the type attribute of the password input field
+        if (password2Input.type === "password") {
+          password2Input.type = "text";
+          togglePassword2Button.classList.remove("fa-eye");
+          togglePassword2Button.classList.add("fa-eye-slash");
+        } else {
+          password2Input.type = "password";
+          togglePassword2Button.classList.remove("fa-eye-slash");
+          togglePassword2Button.classList.add("fa-eye");
+        }
+      });
+    });
+  </script>
+  <%- include ../partials/footer %>
