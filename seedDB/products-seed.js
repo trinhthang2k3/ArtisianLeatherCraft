@@ -5,191 +5,108 @@ const Category = require("../models/category");
 const mongoose = require("mongoose");
 const faker = require("faker");
 const connectDB = require("./../config/db");
+const priceOptions = [700000, 750000, 800000, 850000, 900000, 950000, 1000000, 
+  1050000, 1100000, 1150000, 1200000, 1250000, 1300000, 1350000, 1400000, 1450000, 
+  1500000, 1550000, 1600000, 1650000, 1700000, 1750000, 1800000, 1850000, 1900000, 
+  1950000, 2000000, 2050000, 2100000, 2150000, 2200000, 2250000, 2300000, 2350000, 
+  2400000, 2450000, 2500000, 2550000, 2600000, 2650000, 2700000, 2750000, 2800000,
+   2850000, 2900000, 2950000, 3000000, 3050000, 3100000, 3150000, 3200000, 3250000,
+    3300000, 3350000, 3400000, 3450000, 3500000.];
 connectDB();
 
 async function seedDB() {
   faker.seed(0);
 
   //----------------------Backpacks
-  const backpacks_titles = [
-    "Classic Blue Backpack",
-    "Black Fjallraven Backpack",
-    "Brown and Green Leather Backpack",
-    "Grey Stylish Backpack",
-    "Elegant Black Backpack",
-    "Practical Blue Backpack With Leather Straps",
-    "Soft Classic Biege Backpack",
-    "Practical Durable Backpack",
-    "Comfortable Laptop Backpack",
-    "Extra Large Grey Backpack",
+  const tui_titles = [
+    "Túi bucket màu be vàng Cindy",
+    "Túi bucket Gracie màu trắng mix nâu",
+    "Túi đeo chéo da thật Elle màu trắng phối nâu",
+    "Túi kẹp nách da thật màu đỏ",
+    "Túi chần trám da thật Sophia màu beige",
+    "Túi da đựng máy tính bảng đen",
+    "Túi Bao Tử Da Bò Nhỏ Gọn Màu Đen",
+    "Túi Da Công Sở Da Bò TOGO Cao Cấp",
+    "Túi Xách Nữ Da Đeo Chéo & Xách Tay",
+    "Túi Da Đeo Chéo & Xách Tay Phong Cách Hiện Đại Màu Trắng"
+
   ];
-  const backpacks_imgs = [
-    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80",
-    "https://images.unsplash.com/photo-1562546106-b9cb3a76a206?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
-    "https://images.unsplash.com/photo-1577733966973-d680bffd2e80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
-    "https://images.unsplash.com/photo-1546938576-6e6a64f317cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80",
-    "https://images.unsplash.com/photo-1585916420730-d7f95e942d43?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
-    "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-    "https://images.pexels.com/photos/2422476/pexels-photo-2422476.png?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-    "https://images.pexels.com/photos/1545998/pexels-photo-1545998.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-    "https://live.staticflickr.com/3428/3361015646_303a2d0571_b.jpg",
-    "https://storage.needpix.com/rsynced_images/backpack-2634622_1280.jpg",
+  const tui_imgs = [
+    "https://kat.vn/wp-content/uploads/2024/03/tui-bucket-mau-be-vang-cindy-da-that-2-100x100.jpg",
+    "https://kat.vn/wp-content/uploads/2022/11/tui-bucket-da-that-Kat-Gracie-36.jpg",
+    "https://kat.vn/wp-content/uploads/2023/10/tui-nu-deo-cheo-da-that-Kat-Elle-2-100x100.png",
+    "https://kat.vn/wp-content/uploads/2023/11/tui-kep-nach-da-that-Kat-Flora-45.jpg",
+    "https://kat.vn/wp-content/uploads/2022/07/tui-kep-nach-da-that-Kat-Sophia-33.jpg",
+    "https://vuadasaigon.com/images/detailed/8/tui_da_dung_may_tinh_bang_csd91d_1.jpg",
+    "https://vuadasaigon.com/images/thumbnails/480/480/detailed/5/tui_bao_tu_da_bo_nho_gon_mau_den_db152_5.jpg",
+    "https://product.hstatic.net/1000397717/product/435923061_724629929837866_6820518196375734363_n_279c095774424dd284d76782c8909179_master.jpg",
+    "https://product.hstatic.net/1000397717/product/434372346_717965310504328_6200835625538282201_n_dc5590cd0a0f446dbdce82eb0fd28273_master.jpg",
+    "https://product.hstatic.net/1000397717/product/o1cn012wbyqh1m4xitbkirw___3074981381-0-cib_5242570bf19547408f29ff147638e78b_master.jpg"
   ];
 
   //--------------------Travel Bags
-  const travel_titles = [
-    "Stylish Pastel Pink Travel Bag",
-    "A Fahionable Set of Two Pink Travel Bags",
-    "White and Black Hard Luggage",
-    "Rainbow Dotted Duffle Bag Luggage",
-    "Blue and Gray Classic Suitcase",
-    "A Set of Three Hard Durable Suitcases",
-    "Light Blue Hard Luggage",
-    "Black Leather Vintage Suitcase",
-    "A Set of Three Large Travel Bags",
-    "Two Stylish Light Green Travel Bags With Different Sizes",
-    "Simple Blue Luggage with Many Compartments",
+  const vida_titles = [
+    "Ví da bò nam đen trơn",
+    "Ví nam da Cá Sấu nhỏ gọn",
+    "Ví da Passport hộ chiếu da bò Handmade (xanh Army)",
+    "Ví da bò phối da cao cấp ORI",
+    "Ví ngang da bò vân voi "
   ];
 
-  const travel_imgs = [
-    "https://p1.pxfuel.com/preview/899/786/420/travel-bag-hard-and-bag.jpg",
-    "https://p1.pxfuel.com/preview/479/120/981/luggage-metallic-luguagge-case.jpg",
-    "https://images.unsplash.com/photo-1565026057447-bc90a3dceb87?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
-    "https://cdn.pixabay.com/photo/2019/06/20/16/10/duffle-bag-4287485_960_720.png",
-    "https://p0.pikrepo.com/preview/74/133/blue-and-gray-suede-rolling-luggage-thumbnail.jpg",
-    "https://cdn.pixabay.com/photo/2019/01/22/15/53/suitcases-3948389_960_720.png",
-    "https://cdn.pixabay.com/photo/2019/07/09/11/52/travel-bag-4326738_960_720.jpg",
-    "https://p0.pxfuel.com/preview/942/496/984/various-bag-bags-luggage.jpg",
-    "https://p0.pxfuel.com/preview/273/580/962/travelvarious-bag-bags-holiday.jpg",
-    "https://p1.pxfuel.com/preview/926/897/247/travel-bag-hard-and-bag.jpg",
-    "https://p0.pxfuel.com/preview/963/699/697/bag-blue-handbag-white.jpg",
+  const vida_imgs = [
+    "https://sp-ao.shortpixel.ai/client/to_webp,q_lossless,ret_img,w_768/https://mrluu.vn/wp-content/uploads/2018/11/vi-nam-da-bo-handmade-mrluu11-768x512.jpg",
+    "https://sp-ao.shortpixel.ai/client/to_webp,q_lossless,ret_img,w_768/https://mrluu.vn/wp-content/uploads/2019/03/vi-nam-da-ca-sau-nho-gon-handmade4-768x512.jpg",
+    "https://sp-ao.shortpixel.ai/client/to_webp,q_lossless,ret_img,w_768/https://mrluu.vn/wp-content/uploads/2018/06/bao-da-ho-chieu-passport-handmade-mrluu-20-768x512.jpg",
+    "https://bizweb.dktcdn.net/thumb/grande/100/059/374/products/img-0438.jpg?v=1684378860727",
+    "https://bizweb.dktcdn.net/thumb/1024x1024/100/059/374/products/img-1246.jpg?v=1600416662443"
+
   ];
 
   //--------------------Briefcases
-  const briefcases_titles = [
-    "Aluminium Metal Suitcase",
-    "Black Leather Durable Suitcase",
+  const thatlung_titles = [
+    "Dây lưng nam Zucian đầu khóa vàng kim",
+    "Dây lưng nam cá sấu mặt nhám",
+    "Dây lưng da nữ bản to khóa biểu tượng",
+    "Dây lưng nữ dây da khóa kim bản nhỏ",
+    "Dây Lưng Nam Da Thật Khóa Phối Màu Nâu",
+    "Dây lưng nam đầu xoay - Manel Xanh",
+    "Dây lưng da bò mill đen xỏ kim bản 3cm",
+    "Dây lưng da bò mặt trượt da bò đen ",
+    "Dây lưng da bò mặt xoay 360 dây da bò nâu đen",
+    "Dây lưng Devon da bò Crossgrain cao cấp"
   ];
 
-  const briefcases_imgs = [
-    "https://upload.wikimedia.org/wikipedia/commons/6/6d/Aluminium_Briefcase.jpg",
-    "http://res.freestockphotos.biz/pictures/1/1751-black-leather-briefcase-on-a-white-background-pv.jpg",
+  const thatlung_imgs = [
+    "https://shopdonghai.com/cdn/shop/files/that-lung-nam-zuciani-HZ14-den_31628d87-eaa4-43da-87cf-fc8213cf6e32_900x.jpg?v=1689138989",
+    "https://shopdonghai.com/cdn/shop/products/CS1200_Den_1_75d23004-eb09-4fe2-96b7-e28a7a7e906c_900x.jpg?v=1623221824",
+    "https://shopdonghai.com/cdn/shop/products/MT29_Den_900x.jpg?v=1651652062",
+    "https://shopdonghai.com/cdn/shop/files/nit-TD02-nau-1_900x.jpg?v=1713153395",
+    "https://shopdonghai.com/cdn/shop/files/that-lung-nam-zuciani-HZ14-den_31628d87-eaa4-43da-87cf-fc8213cf6e32_900x.jpg?v=1689138989",
+    "https://lethnic.vn/cdn/shop/products/Lethnic-That-Lung-Day-Nit-Manel-N-Xanh-Nau_380x.jpg?v=1619768011",
+    "https://static.ecosite.vn/734/product/2023/05/16/img-4116a-1684170890.jpg",
+    "https://static.ecosite.vn/734/product/2022/09/25/img-144123-1664039153.jpg",
+    "https://static.ecosite.vn/734/product/2022/09/24/img-2028a-1664037978.jpg",
+    "https://www.leonardo.vn/cdn/shop/files/1_72ef06a7-6bc1-4af0-b2f5-d0e613fb5cba_900x.jpg?v=1684721288"
   ];
 
   //--------------------Mini Bags
-  const miniBags_titles = [
-    "Pink Leather Crossbody Bag",
-    "Stylish Pink Crossbody Bag",
-    "Mini Black Carra Shoulder Bag",
-    "White Leather Mini Bag with Crossbody Strap",
-    "Blue Jeans Mini Bag",
-    "Biege Be Dior Mini Bag with Crossbody Strap",
-    "Red Be Dior Mini Bag with Crossbody Strap",
-    "Light Blue Mini Bag with Golden Strap",
-    "Light Green Mini Bag with Golden Strap",
-    "Pastel Pink Mini Bag with Golden Strap",
-    "Biege Leather Crossbody Bag",
-    "White Leather Crossbody Bag",
-    "Elegant White Mini Bag with Silver Strap",
-    "Simple Red Mini Bag",
+  const strap_titles = [
+    "Dây Đồng Hồ Da Cá Sấu Nhập Khẩu Pháp Màu Nâu",
+    "Dây Đồng Hồ Da Cá Sấu Xanh Lá",
+    "Dây Đồng Hồ Chopard Nữ Màu Đen",
+    "Dây đồng hồ Grand Seiko da Cá Sấu",
+    "Dây đồng hồ da Handmade Apple Watch",
+    "Dây đồng hồ Tag Heuer da Cá Sấu Pháp",
+    "Dây đồng hồ Rolex da Cá Sấu"
   ];
-  const miniBags_imgs = [
-    "https://images.unsplash.com/photo-1566150905458-1bf1fc113f0d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1502&q=80",
-    "https://upload.wikimedia.org/wikipedia/commons/b/bc/DKNY_Mini_Flap_Crossbody_W_-_SS_Crossbody_R1513004_Kalbsleder_beige_%281%29_%2816080518124%29.jpg",
-    "https://p1.pxfuel.com/preview/177/215/691/handbag-bag-today-the-postwoman-fashion-style-skin.jpg",
-    "https://p2.piqsels.com/preview/392/1016/905/handbags-white-fashion-bag-shoulder-bag.jpg",
-    "https://c.pxhere.com/photos/37/cb/camera_bag_scene_package_fashion-900156.jpg!d",
-    "https://c.pxhere.com/photos/94/0e/bag_dior_x_n-867928.jpg!d",
-    "https://c.pxhere.com/photos/92/ad/bag_dior_u-867943.jpg!d",
-    "https://c.pxhere.com/photos/5b/ea/bag_fashion_style-518819.jpg!d",
-    "https://c.pxhere.com/photos/19/aa/bag_fashion_style-518820.jpg!d",
-    "https://c.pxhere.com/photos/41/9e/bag_fashion_style-518821.jpg!d",
-    "https://c.pxhere.com/photos/24/f9/bag_fashion_style-518803.jpg!d",
-    "https://c.pxhere.com/photos/16/e8/bag_fashion_style-518804.jpg!d",
-    "https://images.unsplash.com/photo-1564422167509-4f8763ff046e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
-    "https://c.pxhere.com/photos/87/f0/bag_crimson_product_photos_padlock_bag_women_bags_dot_white-1000331.jpg!d",
-  ];
-
-  //--------------------Large Handags
-
-  const largeHandbags_titles = [
-    "Elegant Shiny Brown Leather Handbag",
-    "Black Leather Handbag with Golden Chains",
-    "Elegant Black Leather Handbag",
-    "Stylish Blue Handbag with its Purse",
-    "A set of Two Elegant Handbags",
-    "Practical Blue Leather Handbag with its Purse",
-    "Simple Black Leather Handbag",
-    "Golden Leather Handbag",
-    "Shiny Black Leather Handbag",
-    "Gray and Yellow Flowery Shoulder Bag",
-    "Blue and Brown Leather Handbag with Shoulder Strap",
-  ];
-  const largeHandbags_imgs = [
-    "https://c.pxhere.com/photos/a8/b7/handbag_purse_fashion_bag_female_style_women_elegance-703150.jpg!d",
-    "https://c.pxhere.com/photos/b6/5c/handbag_purse_fashion_bag_female_women_accessory_modern-703145.jpg!d",
-    "https://c.pxhere.com/photos/4b/82/handbag_purse_fashion_bag_female_style_women_lady-703156.jpg!d",
-    "https://images.unsplash.com/photo-1564422170194-896b89110ef8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
-    "https://images.unsplash.com/photo-1564222256577-45e728f2c611?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80",
-    "https://p1.pxfuel.com/preview/680/478/429/online-shopping-lisaswardrobe-handbags-shopping.jpg",
-    "https://p1.pxfuel.com/preview/762/878/334/handbag-black-gold.jpg",
-    "https://p1.pxfuel.com/preview/550/178/484/bag-handbag-haberdashery.jpg",
-    "https://p1.pxfuel.com/preview/5/396/904/package-briefcase-leather-bags.jpg",
-    "https://p1.pxfuel.com/preview/843/210/542/vera-bradley-purse-handbag-shoulder-bag.jpg",
-    "https://p1.pxfuel.com/preview/57/634/392/purse-bag-handbag-fashion.jpg",
-  ];
-
-  //-----------------------Purses
-  const purses_titles = [
-    "Hot Pink Leather Purse",
-    "Glittery Black Purse with Golden Strap",
-    "Practical Black Leather Purse",
-    "Red Leather Pouche with Free Earrings",
-    "Lavender Leather Purse",
-    "White and Black Snakeskin Purse",
-    "Dark Brown Simple Purse",
-    "Red Kipling Pouche",
-    "Biege Kipling Pouche",
-  ];
-  const purses_imgs = [
-    "https://c.pxhere.com/photos/c2/fc/bag_fashion_style-518806.jpg!d",
-    "https://images.unsplash.com/photo-1564222195116-8a74a96b2c8c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
-    "https://c.pxhere.com/photos/cb/9e/wallet_black_clutch_purse_leather_fashion_style_accessory-952715.jpg!d",
-    "https://c.pxhere.com/photos/63/90/purse_handbag_fashion_bag_style_design_leather_accessory-780266.jpg!d",
-    "https://c.pxhere.com/photos/2d/da/wallet_purple_wallet_purple_money_purse_billfold_lavender_fashion-863005.jpg!d",
-    "https://images.unsplash.com/photo-1563904092230-7ec217b65fe2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1534&q=80",
-    "https://www.publicdomainpictures.net/pictures/60000/velka/leather-purse-isolated-background.jpg",
-    "https://c.pxhere.com/photos/94/29/bag_handbag_purse_pink_red_fashion_glamour_accessory-952105.jpg!d",
-    "https://c.pxhere.com/photos/9b/57/bag_purse_handbag_fashion_style_accessory_white-1336949.jpg!d",
-  ];
-
-  //-----------------Totes
-
-  const totes_titles = [
-    "Plain White Cotton Tote",
-    "Elegant Red Leather Tote",
-    "Handmade Embroided White Tote with Red Roses",
-    "Multicolored White Tote",
-    "Owl White Cotton Tote",
-    "Simple Grey Zipped Tote",
-    "Earth Positive Tote Bag",
-    "Deep Purple Handstamped Tote",
-    "White Cotton Tote with Drawings",
-    "Grey Wolf Tote",
-    "Yellow and Green Bold Tote",
-  ];
-  const totes_imgs = [
-    "https://p1.pxfuel.com/preview/1021/986/529/bag-cotton-cotton-bag-textile-wall-white.jpg",
-    "https://p1.pxfuel.com/preview/741/996/910/handbag-fashion-fashionable-woman.jpg",
-    "https://p1.pxfuel.com/preview/58/205/88/shop-bag-bags-sale.jpg",
-    "https://p1.pxfuel.com/preview/367/279/652/bag-bag-elephant-cloth-bag.jpg",
-    "https://p0.pikrepo.com/preview/627/393/white-blue-and-red-owl-print-tote-bag.jpg",
-    "https://farm5.staticflickr.com/4022/4714518639_8d9e06be13_b.jpg",
-    "https://live.staticflickr.com/3538/3674472019_727d8c4669.jpg",
-    "https://live.staticflickr.com/5161/5342130557_7fa8cc5935_b.jpg",
-    "https://p1.pxfuel.com/preview/368/540/34/bag-cotton-natural-cotton-bag-advertising-royalty-free-thumbnail.jpg",
-    "https://p1.pxfuel.com/preview/726/975/813/bag-handbag-womans-bag-sport-bag.jpg",
-    "https://p1.pxfuel.com/preview/844/198/547/bag-burlap-advertising.jpg",
+  const strap_imgs = [
+    "https://product.hstatic.net/1000296863/product/day-dong-ho-da-ca-sau-nhap-khau_1b41691bebd449fc9a8e7d25e81618d6_master.jpg",
+    "https://product.hstatic.net/1000296863/product/day-dong-ho-da-ca-sau_85ff116826e0477f80aec573545722b2_master.jpg",
+    "https://strapwatch.vn/wp-content/uploads/2023/04/z4200291973686_fdaf22b334ca44c98af18015734c3d4e-768x1365.jpg",
+    "https://sp-ao.shortpixel.ai/client/to_webp,q_lossless,ret_img,w_768/https://mrluu.vn/wp-content/uploads/2023/09/day-dong-ho-grand-seiko-da-ca-sau-handmade-mrluu-1-768x512.jpg",
+    "https://sp-ao.shortpixel.ai/client/to_webp,q_lossless,ret_img,w_768/https://mrluu.vn/wp-content/uploads/2022/05/day-da-handmade-apple-watch-mrluu-1-768x426.jpg",
+    "https://sp-ao.shortpixel.ai/client/to_webp,q_lossless,ret_img,w_768/https://mrluu.vn/wp-content/uploads/2022/05/day-dong-ho-tag-heuer-da-ca-sau-handamde-mrluu-5-768x512.jpg",
+    "https://sp-ao.shortpixel.ai/client/to_webp,q_lossless,ret_img,w_768/https://mrluu.vn/wp-content/uploads/2022/05/day-dong-ho-rolex-da-ca-sau-handmade-mrluu-5-768x512.jpg",
   ];
 
   async function seedProducts(titlesArr, imgsArr, categStr) {
@@ -201,10 +118,10 @@ async function seedDB() {
           title: titlesArr[i],
           imagePath: imgsArr[i],
           description: faker.lorem.paragraph(),
-          price: faker.random.number({ min: 10, max: 50 }),
-          manufacturer: faker.company.companyName(0),
+          price: priceOptions[faker.random.number({ min: 0, max: priceOptions.length - 1 })],
           available: true,
           category: categ._id,
+          rating: faker.random.number({min: 3, max: 5}),
         });
         await prod.save();
       }
@@ -219,18 +136,10 @@ async function seedDB() {
     await mongoose.disconnect();
   }
 
-  await seedProducts(backpacks_titles, backpacks_imgs, "Backpacks");
-  await seedProducts(briefcases_titles, briefcases_imgs, "Briefcases");
-  await seedProducts(travel_titles, travel_imgs, "Travel");
-  await seedProducts(miniBags_titles, miniBags_imgs, "Mini Bags");
-  await seedProducts(
-    largeHandbags_titles,
-    largeHandbags_imgs,
-    "Large Handbags"
-  );
-  await seedProducts(purses_titles, purses_imgs, "Purses");
-  await seedProducts(totes_titles, totes_imgs, "Totes");
-
+  await seedProducts(tui_titles, tui_imgs, "Túi");
+  await seedProducts(vida_titles, vida_imgs, "Ví da");
+  await seedProducts(thatlung_titles, thatlung_imgs, "Thắt lưng");
+  await seedProducts(strap_titles, strap_imgs, "Dây đeo đồng hồ");
   await closeDB();
 }
 
