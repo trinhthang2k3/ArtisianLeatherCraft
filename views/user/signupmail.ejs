@@ -1,0 +1,30 @@
+
+<%- include ../partials/header %> <%- include ../partials/categories-navbar %>
+ 
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 m-auto">
+      <h1 class="mt-4 mb-4">Trang đăng kí</h1>
+      <% if(errorMsg != null && errorMsg.length>0) {%>
+      <div id="flash-msg" class="alert alert-danger">
+        <%=errorMsg %>
+      </div>
+      <%}%>
+      <form action="/user/signupmail" method="POST">
+        <div class="form-group" >
+          <label for="email">Địa chỉ mail của bạn</label>
+          <div class="input-group">
+            <input type="email" class="form-control" name="email" id="email">
+          </div>
+        </div>
+     
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <button type="submit" class="btn btn-primary button-style">
+            Gửi mã xác minh
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include ../partials/footer %>
