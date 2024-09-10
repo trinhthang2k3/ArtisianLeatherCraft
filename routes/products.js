@@ -6,6 +6,9 @@ const { ObjectId } = require("mongoose").Types;
 var moment = require("moment");
 
 // GET: display all products
+// GET: display all products with category sorting
+// GET: display all products with category and price range sorting
+// GET: display all products with category and price range sorting
 router.get("/", async (req, res) => {
   const successMsg = req.flash("success")[0];
   const errorMsg = req.flash("error")[0];
@@ -17,12 +20,52 @@ router.get("/", async (req, res) => {
     filterOptions.category = { $in: req.query.categories };
   }
 
+  // Define price range filters based on the query parameter
+  const priceRangeFilters = {
+    1: { $lt: 1000000 }, // Dưới 1 triệu đồng
+    2: { $gte: 1000000, $lt: 2000000 }, // Từ 1 đến 2 triệu đồng
+    3: { $gte: 2000000, $lt: 3000000 }, // Từ 2 đến 3 triệu đồng
+    // Add more price ranges as needed
+  };
+
+  const ratingRangeFilters = {
+    3: {$gte:3,$lt: 4},
+    4: {$gte:4,$lt: 5},
+    5: {$gte:5 ,$lt: 6},
+  };
+  
+  if (req.query.rating) {
+    const selectedRatingRange = parseInt(req.query.rating);
+    filterOptions.rating = ratingRangeFilters[selectedRatingRange];
+  }
+
+  if (req.query.price) {
+    const selectedPriceRange = parseInt(req.query.price);
+    filterOptions.price = priceRangeFilters[selectedPriceRange];
+  }
+
   try {
-    const products = await Product.find(filterOptions)
-      .sort("-createdAt")
-      .skip(perPage * page - perPage)
-      .limit(perPage)
-      .populate("category");
+    let products;
+    // Check if sorting parameter exists
+    if (req.query.sort === 'price-low-to-high') {
+      products = await Product.find(filterOptions)
+        .sort({ price: 1 })
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .populate("category");
+    } else if (req.query.sort === 'price-high-to-low') {
+      products = await Product.find(filterOptions)
+        .sort({ price: -1 })
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .populate("category");
+    } else {
+      // If no sorting parameter provided, return unsorted products
+      products = await Product.find(filterOptions)
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .populate("category");
+    }
 
     const count = await Product.countDocuments(filterOptions);
 
@@ -41,6 +84,9 @@ router.get("/", async (req, res) => {
     res.redirect("/");
   }
 });
+
+
+
 
 // GET: search box
 router.get("/search", async (req, res) => {
